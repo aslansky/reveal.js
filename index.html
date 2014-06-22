@@ -1,9 +1,9 @@
-<!doctype html>  
+<!doctype html>
 <html lang="en">
-	
+
 	<head>
 		<meta charset="utf-8">
-		
+
 		<title>reveal.js - The HTML Presentation Framework</title>
 
 		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
@@ -11,11 +11,11 @@
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-		
+
 		<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-		
+
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+		<link rel="stylesheet" href="css/theme/solarized.css" id="theme">
 
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -29,311 +29,677 @@
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
 	</head>
-	
+
 	<body>
-		
+
 		<div class="reveal">
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 
 				<section>
-					<h1>Reveal.js</h1>
-					<h3>HTML Presentations Made Easy</h3>
+					<h1><img src="http://git-scm.com/images/logo@2x.png" style="border:0;background-none;box-shadow:none;"></h1>
+					<h3>--local-branching-on-the-cheap</h3>
 				</section>
-				
-				<section>
-					<h2>Heads Up</h2>
-					<p>
-						reveal.js is a framework for easily creating beautiful presentations using HTML. You'll need a browser with 
-						support for CSS 3D transforms to see it in its full glory.
-					</p>
-					<p>
-						<i><small>- <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small></i>
-					</p>
 
+				<section>
+						<h2>Heads Up</h2>
+						<ul>
+							<li>Git is a distributed version control system</li>
+							<li>stores snapshots, not file differences</li>
+							<li>nearly every operation is local</li>
+							<li>Git has integrity</li>
+							<li>Git generally only adds data</li>
+						</ul>
+					</script>
 					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you run the speaker notes server.
+						<ul>
+							<li>Other systems tend to store data as changes to a base version of each file.</li>
+							<li>Git thinks of its data more like a set of snapshots of a mini filesystem.</li>
+							<li>Every time you commit or save files, it basically takes a picture of what all your files look like and stores a reference to that snapshot.</li>
+							<li>To be efficient Git doesn’t store the file again if files have not changed</li>
+							<li>just a link to the previous identical file it has already stored.</li>
+							<li>Everything in Git is check-summed before it is stored and is then referred to by that checksum.</li>
+							<li>This means it’s impossible to change the contents of any file or directory without Git knowing about it.</li>
+							<li>You can’t lose information in transit or get file corruption without Git being able to detect it.</li>
+							<li>SHA-1 hash</li>
+						</ul>
 					</aside>
 				</section>
-				
-				<!-- Example of nested vertical slides -->
+				<section>
+					<h2>The Three States</h2>
+					<img src="http://git-scm.com/figures/18333fig0106-tn.png">
+					<aside class="notes">
+						<ul>
+							<li>Git has three main states that your files can reside in: committed, modified, and staged.</li>
+							<li>Committed - data is safely stored in local database.</li>
+							<li>Modified - you have changed files but have not committed.</li>
+							<li>Staged - you have marked a modified file in its current version for next commit snapshot.</li>
+							<li>Git directory is where Git stores the metadata and object database</li>
+							<li>working directory is a single checkout of one version of the project</li>
+							<li>staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit</li>
+						</ul>
+				</section>
 				<section>
 					<section>
-						<h2>Vertical Slides</h2>
-						<p>
-							Slides can be nested inside of other slides,
-							try pressing <a href="#/2/1">down</a>.
-						</p>
-						<a href="#/2/1" class="image">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
+						<h1>Git basics</h1>
+						<img src="http://media.tumblr.com/tumblr_mdeu74u2M31rqfksw.gif">
 					</section>
 					<section>
-						<h2>Basement Level 1</h2>
-						<p>Press down or up to navigate.</p>
+						<h2>Initializing a Repository</h2>
+						<pre><code contenteditable>
+$ git init
+
+$ git add *.c
+$ git add README
+$ git commit -m 'initial project version'
+						</code></pre>
 					</section>
 					<section>
-						<h2>Basement Level 2</h2>
-						<p>Cornify</p>
-						<a class="test" href="http://cornify.com">
-							<img width="280" height="326" src="https://s3.amazonaws.com/hakim-static/reveal-js/cornify.gif" alt="Unicorn">
-						</a>
+						<h2>Cloning an Existing Repository</h2>
+						<pre><code contenteditable>
+// clone into grit directory
+$ git clone git://github.com/schacon/grit.git
+
+// clone into mygrit directory
+$ git clone git://github.com/schacon/grit.git mygrit
+						</code></pre>
 					</section>
 					<section>
-						<h2>Basement Level 3</h2>
-						<p>That's it, time to go back up.</p>
-						<a href="#/2" class="image">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="-webkit-transform: rotate(180deg);">
-						</a>
+						<h2>Recording Changes to the Repository</h2>
+						<img src="http://git-scm.com/figures/18333fig0201-tn.png">
+					</section>
+					<section>
+						<h2>Checking the Status of Your Files</h2>
+						<pre><code contenteditable>
+$ git status
+On branch master
+nothing to commit, working directory clean
+						</code></pre>
+						<pre><code contenteditable>
+$ vim README
+$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        README
+
+nothing added to commit but untracked files present (use "git add" to track)
+						</code></pre>
+					</section>
+					<section>
+						<h2>Tracking New Files</h2>
+						<pre><code contenteditable>
+$ git add README
+						</code></pre>
+						<pre><code contenteditable>
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+        new file:   README
+						</code></pre>
+					</section>
+					<section>
+						<h2>Staging Modified Files</h2>
+						<pre><code contenteditable>
+$ git add benchmarks.rb
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+        new file:   README
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   benchmarks.rb
+						</code></pre>
+					</section>
+					<section>
+						<pre><code contenteditable>
+$ vim benchmarks.rb
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+        new file:   README
+        modified:   benchmarks.rb
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   benchmarks.rb
+						</code></pre>
+					</section>
+					<section>
+						<h2>Ignoring Files</h2>
+						<pre><code contenteditable>
+$ cat .gitignore
+*.[oa]
+*~
+						</code></pre>
+						<ul>
+							<li>Blank lines or lines starting with # are ignored.</li>
+							<li>Standard glob patterns work.</li>
+							<li>You can end patterns with a forward slash (/)<br>to specify a directory.</li>
+							<li>You can negate a pattern bystarting it<br>with an exclamation point (!).</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Viewing Your Staged and Unstaged Changes</h2>
+						<ul>
+							<li>$ git status</li>
+							<li>$ git diff</li>
+							<li>$ git diff --cached</li>
+						</ul>
+						<aside class="notes">
+							<ul>
+								<li>git diff - see what you’ve changed but not yet staged</li>
+								<li>git diff --cached - to see what you’ve staged that will go into your next commit</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Committing Your Changes</h2>
+						<pre><code contenteditable>
+// interactive
+$ git commit
+
+// with message
+$ git commit -m "Story 182: Fix benchmarks for speed"
+
+// commit all changes with message
+$ git commit -a -m "Story 182: Fix benchmarks for speed"
+
+// -a does not commit unadded files
+						</code></pre>
+					</section>
+					<section>
+						<h2>Removing Files</h2>
+						<pre><code contenteditable>
+// stage removed files
+$ git rm grit.gemspec
+
+// remove file from stage and keep in working directory
+$ git rm --cached readme.txt
+
+// pass in glob patterns
+$ git rm log/\*.log
+						</code></pre>
+					</section>
+					<section>
+						<h2>Moving Files</h2>
+						<p>Git doesn’t explicitly track file movement</p>
+						<pre><code contenteditable>
+$ git mv file_from file_to
+
+// equivalent to
+$ mv README.txt README
+$ git rm README.txt
+$ git add README
+						</code></pre>
+					</section>
+					<section>
+						<h2>Viewing the Commit History</h2>
+						<pre><code contenteditable>
+$ git log
+
+// last 2 commits with diff
+$ git log -p -2
+
+// diff on word level with 1 line context
+$ git log -U1 --word-diff
+
+// log with list of modified files
+$ git log --stat
+
+// short log
+$ git log --pretty=oneline
+
+// custom log format
+$ git log --pretty=format:"%h - %an, %ar : %s"
+
+// see branch and merge history
+$ git log --pretty=format:"%h %s" --graph
+
+// limit commits to before or after a date
+$ git log --since=2.weeks
+$ git log --until=2.weeks
+						</code></pre>
+						<p>There are many many more log options</p>
+					</section>
+					<section>
+						<pre><code contenteditable>
+$ git log --pretty="%h - %s" --author=gitster \
+       --after="2008-10-01T00:00:00-0400"         \
+      --before="2008-10-31T23:59:59-0400" --no-merges -- test/
+5610e3b - Fix testcase failure when extended attribute
+acd3b9e - Enhance hold_lock_file_for_{update,append}()
+f563754 - demonstrate breakage of detached checkout wi
+d1a43f2 - reset --hard/read-tree --reset -u: remove un
+51a94af - Fix "checkout --track -b newbranch" on detac
+b0ad11e - pull: allow "git pull origin $something:$cur
+						</code></pre>
+						<p>Commits modifying test files, are committed by Junio Hamano, with CommitDate being in the month of October 2008 and were not merges</p>
+					</section>
+					<section>
+						<h2>Changing Your Last Commit</h2>
+						<pre><code contenteditable>
+$ git commit -m 'initial commit'
+$ git add forgotten_file
+$ git commit --amend
+						</code></pre>
+					</section>
+					<section>
+						<h2>Unstaging a Staged File</h2>
+						<pre><code contenteditable>
+$ git reset HEAD benchmarks.rb
+Unstaged changes after reset:
+M       benchmarks.rb
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+        modified:   README.txt
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   benchmarks.rb
+						</code></pre>
+					</section>
+					<section>
+						<h2>Unmodifying a Modified File</h2>
+						<pre><code contenteditable>
+$ git checkout -- benchmarks.rb
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+        modified:   README.txt
+						</code></pre>
+					</section>
+					<section>
+						<h2>Working with Remotes</h2>
+						<pre><code contenteditable>
+// viewing remotes
+$ git remote -v
+
+// adding remote
+$ git remote add pb git://github.com/paulboone/ticgit.git
+
+// fetching data
+$ git fetch pb
+
+// pushing data
+$ git push origin master
+
+// showing information about remotes
+$ git remote show origin
+						</pre></code>
+					</section>
+					<section>
+						<h2>Tagging</h2>
+						<pre><code contenteditable>
+// list tags
+$ git tag
+
+// create annotated tag
+$ git tag -a v1.4 -m 'my version 1.4'
+
+// lightweight tag (just a checksum saved in a file)
+$ git tag v1.4-lw
+
+// pushing tag to remote
+$ git push origin v1.5
+						</pre></code>
 					</section>
 				</section>
-
 				<section>
-					<h2>Holistic Overview</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview!
-					</p>
+					<section>
+						<h1>Branching</h1>
+						<img src="http://gifs.gifbin.com/1237811519_chuck-norris-approves.gif">
+					</section>
+					<section>
+						<h2>Basic Branching</h2>
+							<pre><code contenteditable>
+$ git checkout -b iss53
+Switched to a new branch 'iss53'
+
+// shorthand for
+$ git branch iss53
+$ git checkout iss53
+						</pre></code>
+					</section>
+					<section>
+						<h2>Basic Merging</h2>
+						<pre><code contenteditable>
+$ git checkout master
+$ git merge iss53
+Auto-merging README
+Merge made by the 'recursive' strategy.
+ README | 1 +
+ 1 file changed, 1 insertion(+)
+						</pre></code>
+						<pre><code contenteditable>
+// delete branch
+$ git branch -d iss53
+						</pre></code>
+					</section>
+					<section>
+						<h2>Basic Merge Conflicts</h2>
+						<pre><code contenteditable>
+$ git merge iss53
+Auto-merging index.html
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.
+						</pre></code>
+						<pre><code contenteditable>
+$ git status
+On branch master
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+
+        both modified:      index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+						</pre></code>
+					</section>
+					<section>
+						<h2>Git mergetool</h2>
+						<pre><code contenteditable>
+$ git mergetool
+
+This message is displayed because 'merge.tool' is not configured.
+See 'git mergetool --tool-help' or 'git help config' for more details.
+'git mergetool' will now attempt to use one of the following tools:
+opendiff kdiff3 tkdiff xxdiff meld tortoisemerge gvimdiff diffuse diffmerge ecmerge p4merge araxis bc3 codecompare vimdiff emerge
+Merging:
+index.html
+
+Normal merge conflict for 'index.html':
+  {local}: modified file
+  {remote}: modified file
+Hit return to start merge resolution tool (opendiff):
+						</pre></code>
+					</section>
+					<section>
+						<h2>Branch Management</h2>
+						<pre><code contenteditable>
+// show branches
+$ git branch
+$ git branch -v
+
+// show branches that are merged / not merged into current branch
+$ git branch --merged
+$ git branch --no-merged
+
+						</pre></code>
+					</section>
+					<section>
+						<h2>Remote Branches</h2>
+						<ul>
+							<li>Remote branches are references to the state of branches on the remote repositories</li>
+							<li>They’re local branches that you can’t move</li>
+							<li>Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them</li>
+							<li>They take the form (remote)/(branch)</li>
+						</ul>
+					</section>
+					<section>
+						<img src="http://git-scm.com/figures/18333fig0322-tn.png">
+					</section>
+					<section>
+						<pre><code contenteditable>
+$ git fetch origin
+						</code></pre>
+						<p>looks up which server origin is,<br>fetches any data from it that you don’t yet have,<br>and updates your local database,<br>moving your origin/master pointer to its new,<br>more up-to-date position</p>
+					</section>
+					<section>
+						<h2>Pushing</h2>
+						<pre><code contenteditable>
+// push branch to remote
+$ git push origin serverfix
+
+// get new branches from remote
+$ git fetch origin
+						</code></pre>
+						<p>It’s important to note that when you do a fetch that brings down new remote branches, you don’t automatically have local, editable copies of them.</p>
+						<pre><code contenteditable>
+$ git checkout -b serverfix origin/serverfix
+						</code></pre>
+					</section>
+					<section>
+						<h2>Tracking Branches</h2>
+						<p>Tracking branches are local branches that have a direct relationship to a remote branch.</p>
+						<p>If you’re on a tracking branch and type git push, Git automatically knows which server and branch to push to.</p>
+						<p>Running git pull while on one of these branches fetches all the remote references and then automatically merges in the corresponding remote branch.</p>
+						<pre><code contenteditable>
+$ git checkout --track origin/serverfix
+						</code></pre>
+					</section>
+					<section>
+						<h2>Deleting Remote Branches</h2>
+						<pre><code contenteditable>
+$ git push origin :serverfix
+To git@github.com:schacon/simplegit.git
+ - [deleted]         serverfix
+						</code></pre>
+					</section>
+					<section>
+						<h2>Rebasing</h2>
+						<p>With the rebase command, you can take all the changes that were committed on one branch and replay them on another one.</p>
+						<pre><code contenteditable>
+$ git checkout experiment
+$ git rebase master
+First, rewinding head to replay your work on top of it...
+Applying: added staged command
+						</code></pre>
+					</section>
+					<section>
+						<h2>The Perils of Rebasing</h2>
+						<p><a href="http://git-scm.com/book/en/Git-Branching-Rebasing#The-Perils-of-Rebasing"><strong>Do not rebase commits that you have pushed to a<br>public repository.</strong></a></p>
+					</section>
 				</section>
-
 				<section>
-					<h2>rvl.io</h2>
-					<p>
-						If you don't like writing slides in HTML you can use the online editor <a href="http://www.rvl.io" target="_blank">rvl.io</a>.
-					</p>
+					<section>
+						<h1>Git tools</h1>
+						<img src="http://i.imgur.com/Ch3CN.gif">
+					</section>
+					<section>
+						<h2>git show</h2>
+						<pre><code contenteditable>
+// show commit
+$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+
+// show commit 5 commits ago
+$ git show HEAD@{5}
+
+// show where a branch was yesterday
+$ git show master@{yesterday}
+						</code></pre>
+					</section>
+					<section>
+						<h2>Interactive Staging</h2>
+						<pre><code contenteditable>
+$ git add -i
+           staged     unstaged path
+  1:    unchanged        +0/-1 TODO
+  2:    unchanged        +1/-1 index.html
+  3:    unchanged        +5/-1 lib/simplegit.rb
+
+*** Commands ***
+  1: status     2: update      3: revert     4: add untracked
+  5: patch      6: diff        7: quit       8: help
+What now>
+						</code></pre>
+					</section>
+					<section>
+						<h2>Stashing</h2>
+						<p>Stashing takes the dirty state of your working directory and saves it on a stack of unfinished changes that you can reapply at any time.</p>
+						<pre><code contenteditable>
+$ git stash
+Saved working directory and index state \
+  "WIP on master: 049d078 added the index file"
+HEAD is now at 049d078 added the index file
+(To restore them type "git stash apply")
+						</code></pre>
+					</section>
+					<section>
+						<pre><code contenteditable>
+$ git stash list
+stash@{0}: WIP on master: 049d078 added the index file
+stash@{1}: WIP on master: c264051 Revert "added file_size"
+stash@{2}: WIP on master: 21d80a5 added number to log
+						</code></pre>
+						<pre><code contenteditable>
+$ git stash apply
+$ git stash apply stash@{2}
+
+// applying latest stash entry and delte it from stash
+$ git stash pop
+
+// creating branch from stash
+$ git stash branch testchanges
+
+// clearing stash
+$ git stash clear
+						</code></pre>
+					</section>
+					<section>
+						<h2>Rewriting History</h2>
+						<pre><code contenteditable>
+// changing last commit
+$ git commit --amend
+
+// changing multiple commits
+$ git rebase -i HEAD~3
+
+pick f7f3f6d changed my name a bit
+pick 310154e updated README formatting and added blame
+pick a5f4a0d added cat-file
+
+# Rebase 710f0f8..a5f4a0d onto 710f0f8
+#
+# Commands:
+#  p, pick = use commit
+#  r, reword = use commit, but edit the commit message
+#  e, edit = use commit, but stop for amending
+#  s, squash = use commit, but meld into previous commit
+#  f, fixup = like "squash", but discard this commit's log message
+#  x, exec = run command (the rest of the line) using shell
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out
+						</code></pre>
+					</section>
+					<section>
+						<h2>Other stuff</h2>
+						<pre><code contenteditable>
+// figuring out who did what
+$ git blame -L 12,22 simplegit.rb
+
+// figuring out when something is gone bad
+$ git bisect start
+$ git bisect bad
+$ git bisect good
+
+b047b02ea83310a70fd603dc8cd7a6cd13d15c04 is first bad commit
+commit b047b02ea83310a70fd603dc8cd7a6cd13d15c04
+Author: PJ Hyett <pjhyett@example.com>
+Date:   Tue Jan 27 14:48:32 2009 -0800
+
+    secure this thing
+
+:040000 040000 40ee3e7821b895e52c1695092db9bdc4c61d1730
+f24d3c6ebcfc639b1a3814550e62d60b8e68a8e4 M  config
+
+$ git bisect reset
+						</code></pre>
+					</section>
 				</section>
-
 				<section>
-					<h2>Works in Mobile Safari</h2>
-					<p>
-						Try it out! You can swipe through the slides and pinch your way to the overview.
-					</p>
-				</section>
-
-				<section>
-					<h2>Marvelous Unordered List</h2>
+					<h2>Important stuff</h2>
 					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
+						<li>always git status</li>
+						<li>git config push.default current</li>
+						<li>git config branch.autosetuprebase always</li>
+						<li>git config branch.*branch-name*.rebase true</li>
+						<li>think about your history</li>
+						<li>don't push everything to remote</li>
+						<li>delete already merged / unneeded branches</li>
+						<li>ALWAYS GIT STATUS</li>
 					</ul>
 				</section>
-				
 				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
+          <h2>Links</h2>
+          <p>
+	          <strong>Scott Chacon's Git Einführung</strong><br>
+	          <a href="http://www.youtube.com/watch?v=ZDR433b0HJY">
+	            Video
+	          </a> &amp; <a href="https://speakerdeck.com/schacon/introduction-to-git">
+	            Slides
+	          </a>
+          </p>
+          <p>
+            <strong>Git Bücher (free online)</strong><br>
+            <a href="http://git-scm.com/book">
+              Pro Git
+            </a> &amp; <a href="http://www-cs-students.stanford.edu/~blynn/gitmagic/">
+              Git Magic
+            </a>
+          </p>
+          <p>
+            <strong>Git Webseite</strong><br>
+            <a href="http://git-scm.com">git-scm.com</a>
+          </p>
+          <p>
+            <strong>Wichtige Artikel &amp; ein Video</strong><br>
+            <a href="https://vimeo.com/49444883">
+              Advanced Git mit Tim Berglund
+            </a><br>
+            <a href="http://nvie.com/git-model/">
+              A successful Git branching model
+            </a><br>
+            <a href="http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html">
+              A Note About Git Commit Messages
+            </a>
+          </p>
 				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						## Markdown support
-						
-						For those of you who like that sort of thing. Instructions and a bit more info available [here](https://github.com/hakimel/reveal.js#markdown).
-
-							<section data-markdown>
-							  ## Markdown support
-
-							  For those of you who like that sort of thing. 
-							  Instructions and a bit more info available [here](https://github.com/hakimel/reveal.js#markdown).
-							</section>
-					</script>
-				</section>
-
-				<section>
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like: <br>
-						<a href="http://lab.hakim.se/reveal-js/?transition=cube">Cube</a> -
-						<a href="http://lab.hakim.se/reveal-js/?transition=page">Page</a> -
-						<a href="http://lab.hakim.se/reveal-js/?transition=concave">Concave</a> -
-						<a href="http://lab.hakim.se/reveal-js/?transition=linear">Linear</a>
-					</p>
-				</section>
-
-				<section>
-					<h2>Themes</h2>
-					<p>
-						Reveal.js comes with a few themes built in: <br>
-						<a href="http://lab.hakim.se/reveal-js/?theme=sky">Sky</a> -
-						<a href="http://lab.hakim.se/reveal-js/?theme=beige">Beige</a> -
-						<a href="http://lab.hakim.se/reveal-js/?theme=simple">Simple</a> -
-						<a href="http://lab.hakim.se/reveal-js/?theme=serif">Serif</a> -
-						<a href="http://lab.hakim.se/reveal-js/">Default</a>
-					</p>
-					<p>
-						<small>
-							* Theme demos are loaded after the presentation which leads to flicker. In production you should load your theme in the <code>&lt;head&gt;</code> using a <code>&lt;link&gt;</code>.
-						</small>
-					</p>
-				</section>
-
-				<section>
-					<section data-state="alert">
-						<h2>Global State</h2>
-						<p>
-							Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-							will be added as a class to the document element when the slide is open. This lets you
-							apply broader style changes, like switching the background.
-						</p>
-						<a href="#/7/1" class="image">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-state="blackout">
-						<h2>"blackout"</h2>
-						<a href="#/7/2" class="image">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-state="soothe">
-						<h2>"soothe"</h2>
-						<a href="#/7/0" class="image">
-							<img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="-webkit-transform: rotate(180deg);">
-						</a>
-					</section>
-				</section>
-
-				<section data-state="customevent">
-					<h2>Custom Events</h2>
-					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
-					<pre><code contenteditable style="font-size: 18px; margin-top: 20px;">Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						The nice thing about standards is that there are so many to choose from</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						For years there has been a theory that millions of monkeys typing at random on millions of typewriters would 
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.
-					</blockquote>
-				</section>
-				
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
-    
-    var nodes = document.querySelectorAll( selector );
-
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
-
-      if( !node.className ) ) {
-        node.className += ' roll';
-      }
-    };
-  }
-}
-					</code></pre>
-					<p>Courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-				</section>
-				
-				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
-					</p>
-				</section>
-
-				<section>
-					<h2>Fragmented Views</h2>
-					<p>Hit the next arrow...</p>
-					<p class="fragment">... to step through ...</p>
-					<ol>
-						<li class="fragment"><code>any type</code></li>
-						<li class="fragment"><em>of view</em></li>
-						<li class="fragment"><strong>fragments</strong></li>
-					</ol>
-				</section>
-				
-				<section>
-					<h2>Spectacular image!</h2>
-					<a class="image" href="http://hakim.se/experiments/html5/breakdom/" target="_blank">
-						<img width="320" height="412" src="https://s3.amazonaws.com/hakim-static/reveal-js/breakdom.png" alt="BreakDOM game screenshot">
-					</a>
-				</section>
-				
-				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, below is an example that's been uploaded to SlideShare.</p>
-					<iframe id="slideshare" src="http://www.slideshare.net/slideshow/embed_code/13872948" width="455" height="356" style="margin:0;overflow:hidden;border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen> </iframe>
-					<script>
-						document.getElementById('slideshare').attributeName = 'allowfullscreen';
-					</script>
-				</section>
-				
-				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press b or period on your keyboard to enter the 'paused' mode. This mode is helpful when you want to take disctracting slides off the screen 
-						during a presentaion.
-					</p>
-				</section>
-
-				<section>
-					<h2>Stellar Links</h2>
-					<ul>
-						<li><a href="https://github.com/hakimel/reveal.js">Source code on GitHub</a></li>
-						<li><a href="http://hakim.se/projects/reveal-js">Leave feedback on my site</a></li>
-						<li><a href="http://twitter.com/hakimel">Follow me on Twitter</a></li>
-					</ul>
-				</section>
-
-				<section>
-					<h2>It's free</h2>
-					<p>
-						reveal.js and <a href="http://www.rvl.io">rvl.io</a> are entirely free but if you'd like to support the projects you can donate below. 
-						Donations will go towards hosting and domain costs.
-					</p>
-					<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-						<input type="hidden" name="cmd" value="_donations">
-						<input type="hidden" name="business" value="hakim.elhattab@gmail.com">
-						<input type="hidden" name="lc" value="US">
-						<input type="hidden" name="item_name" value="reveal.js / rvl.io">
-						<input type="hidden" name="no_note" value="0">
-						<input type="hidden" name="currency_code" value="USD">
-						<input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_LG.gif:NonHostedGuest">
-						<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-					</form>
-				</section>
-				
-				<section>
-					<h1>THE END</h1>
-					<h3>BY Hakim El Hattab / hakim.se</h3>
-				</section>
-
 			</div>
-			
+
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.min.js"></script>
 
 		<script>
-			
+
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				controls: true,
 				progress: true,
 				history: true,
-				
-				theme: Reveal.getQueryHash().theme || 'default', // available themes are in /css/theme
+
+				theme: Reveal.getQueryHash().theme || 'solarized', // available themes are in /css/theme
 				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/linear(2d)
 
 				// Optional libraries used to extend on reveal.js
@@ -346,7 +712,7 @@ function linkify( selector ) {
 					{ src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } }
 				]
 			});
-			
+
 		</script>
 
 	</body>
